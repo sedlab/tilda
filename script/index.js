@@ -295,10 +295,21 @@ $.ajax({
 
     /**
      * Зашифрованный код для вставки в консоль браузера.
-     * @param {*} code
-     * @return {*}
+     * @return {string}
      */
     getCodeEncrypted = () => `eval(decodeURIComponent(escape(window.atob('${Buffer.from(this.getCode()).toString('base64')}'))));`;
+
+
+    /**
+     * Получение списка блоков id.
+     * @param {string} id
+     * @return {string[]}
+     */
+    getIdBlocks = (id = '396') => {
+        const $ = cheerio.load(this.html), IdBlocks = [];
+        $("#allrecords").children().toArray().map(item => $(item).attr('data-record-type') === id && IdBlocks.push($(item).attr('id')));
+        return IdBlocks
+    }
 }
 
 export default Tilda;

@@ -8,7 +8,12 @@ try {
     // Получение содержимого сайта.
     needle(URL)
         .then(resp => {
-            const tilda = new Tilda(resp.body, ID);
+            // 1. Получение списка блоков.
+            // const tilda = new Tilda(resp.body);
+            // console.log(tilda.getIdBlocks());
+
+            // 2. Получение блока.
+            // const tilda = new Tilda(resp.body, ID);
             // console.log(tilda.getCssObjRecordId());
             // console.log(tilda.getAdaptiveAB());
             // console.log(tilda.getElementsRecordId());
