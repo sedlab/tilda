@@ -1,0 +1,25 @@
+{
+  "name": "tilda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "body-parser": "^1.19.2",
+    "cheerio": "^1.0.0-rc.10",
+    "cors": "^2.8.5",
+    "css": "^3.0.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "gradient-parser": "^1.0.2",
+    "needle": "^3.0.0",
+    "node-html-parser": "^5.3.3",
+    "nodemon": "^2.0.15",
+    "stylis": "^2.0.4",
+    "yarn": "^1.22.17"
+  }
+}
