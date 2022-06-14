@@ -21,8 +21,7 @@ class Tilda {
     }
 
     /**
-     * Получение ...
-     * @return {*}
+     * @return {NodeList}
      */
     getRecordId = () => {
         const $ = cheerio.load(this.html);
@@ -31,15 +30,15 @@ class Tilda {
 
     /**
      * Получение css стилей.
-     * @return {*} obj.
+     * @return {{*}} obj.
      */
     getCssObjRecordId = () => cssToObject(this.getRecordId().find("style").html(), { numbers: true });
 
     /**
      * Получение списка атрибутов.
-     * @param {*} elem
+     * @param {NodeList} elem
      * @param {string} res
-     * @return {*} obj.
+     * @return {{*}} obj.
      */
     getAttrElemId = (elem, res) => {
         const $ = cheerio.load(this.html), node = $(elem).get(0), obj = {};
@@ -49,10 +48,10 @@ class Tilda {
 
     /**
      * Получение всех стилей эллемента.
-     * @param {*} elem
+     * @param {NodeList} elem
      * @param {number | string} elemId
      * @param {*} constElemStyles function.
-     * @return {*} obj.
+     * @return {{*}} obj.
      */
     getAdaptiveElemStyles = (elem, elemId, constElemStyles) => {
         const res0 = this.getCssObjRecordId(),
@@ -80,7 +79,10 @@ class Tilda {
         return adaptiveElemStyles;
     }
 
-    // Фон z-block.
+    /**
+     * Фон z-block.
+     * @return {{*}} obj.
+     */
     getAdaptiveAB = () => {
         const $ = cheerio.load(this.html);
 
@@ -120,8 +122,8 @@ class Tilda {
     /**
      * Получение стилей элемента.
      * @param {string} html
-     * @param {*} elem
-     * @return {*} obj.
+     * @param {NodeList} elem
+     * @return {{*}} obj.
      */
     getElemStyles = (elem) => {
         const $ = cheerio.load(this.html),
@@ -210,14 +212,14 @@ class Tilda {
 
     /**
      * Получает стили всех эллементов.
-     * @return {*} obj
+     * @return {{*}} obj
      */
     getElementsRecordId = () => this.getRecordId().find('.t396__elem').toArray().map(elem => this.getElemStyles(elem));
 
     /**
      * Получает скрипт tilda, создает z-block и редактирует его содержимое.
-     * @param {*} obj
-     * @return {*} js code.
+     * @param {{*}} obj
+     * @return {string} js code.
      */
     getReqestCode = (obj) => String(`
 const pageid = window.pageid;
