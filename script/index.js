@@ -143,7 +143,7 @@ class Tilda {
             case "text":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, text),
-                    text: $(elem).children().text()
+                    text: $(elem).children().html()
                 });
                 break;
             case "image":
@@ -165,7 +165,7 @@ class Tilda {
             case "button":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, button),
-                    caption: $(elem).children().text(),
+                    caption: $(elem).children().html(),
                     buttonstat: $(elem).find("a").attr("data-tilda-event-name") && "buttonstatsend"
                 });
                 break;

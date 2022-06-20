@@ -2,8 +2,8 @@ import needle from "needle";
 import Tilda from "./script/index.js";
 
 try {
-    const URL = "http://temed.tilda.ws/";
-    const ID = "446657978";
+    const URL = "";
+    const ID = "";
 
     // Получение содержимого сайта.
     needle(URL)
