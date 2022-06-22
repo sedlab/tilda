@@ -8,6 +8,8 @@ class Tilda {
     html = "";
     id = "";
     recordId = "";
+    NodeListHtml = null;
+    NodeListRecordId = null;
 
     /**
      * Конструктор.
@@ -24,8 +26,12 @@ class Tilda {
      * @return {NodeList}
      */
     getRecordId = () => {
-        const $ = cheerio.load(this.html);
-        return $(this.recordId);
+        if (!this.NodeListHtml) {
+            const $ = cheerio.load(this.html);
+            this.NodeListRecordId = $(this.recordId);
+            this.NodeListHtml = (data) => $(data);
+        }
+        return this.NodeListRecordId;
     }
 
     /**
@@ -41,7 +47,7 @@ class Tilda {
      * @return {{*}} obj.
      */
     getAttrElemId = (elem, res) => {
-        const $ = cheerio.load(this.html), node = $(elem).get(0), obj = {};
+        const node = this.NodeListHtml(elem).get(0), obj = {};
         Object.keys(node.attribs).map(name => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== '' && name.replace(res, '')] = node.attribs[name]);
         return obj;
     };
@@ -84,8 +90,6 @@ class Tilda {
      * @return {{*}} obj.
      */
     getAdaptiveAB = () => {
-        const $ = cheerio.load(this.html);
-
         const res0 = this.getCssObjRecordId(),
             res320 = this.getCssObjRecordId()?.['@media screen and (max-width: 479px)'],
             res480 = this.getCssObjRecordId()?.['@media screen and (max-width: 639px)'],
@@ -105,7 +109,7 @@ class Tilda {
         size.forEach(s => {
             const elemId = `[data-artboard-recid="${this.id}"]`;
             const elemStyles = ab(
-                s.res === "" && $(elemId),
+                s.res === "" && this.NodeListHtml(elemId),
                 {
                     artboard: s.data?.[`${this.recordId} .t396__artboard`],
                     carrier: s.data?.[`${this.recordId} .t396__carrier`],
@@ -126,32 +130,31 @@ class Tilda {
      * @return {{*}} obj.
      */
     getElemStyles = (elem) => {
-        const $ = cheerio.load(this.html),
-            elemId = $(elem).attr("data-elem-id"),
-            elemType = $(elem).attr("data-elem-type"),
+        const elemId = this.NodeListHtml(elem).attr("data-elem-id"),
+            elemType = this.NodeListHtml(elem).attr("data-elem-type"),
             link = {
-                link: $(elem).find("a").attr("href"),
-                linktarget: $(elem).find("a").attr("target"),
-                relnofollow: $(elem).find("a").attr("rel"),
+                link: this.NodeListHtml(elem).find("a").attr("href"),
+                linktarget: this.NodeListHtml(elem).find("a").attr("target"),
+                relnofollow: this.NodeListHtml(elem).find("a").attr("rel"),
             },
-            img = $(elem).find("img").attr("data-original") || $(elem).find("img").attr("src"),
-            bgimg = $(elem).find(".t-bgimg").attr("data-original") || cssToObject($(elem).find(".tn-atom").attr("style") || '')?.['background-image']?.match(/url\(["']?([^"']*)["']?\)/)[1],
-            tipimg = $(elem).find("img").attr("data-tipimg-original") || $(elem).find("img").attr("src"),
+            img = this.NodeListHtml(elem).find("img").attr("data-original") || this.NodeListHtml(elem).find("img").attr("src"),
+            bgimg = this.NodeListHtml(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.NodeListHtml(elem).find(".tn-atom").attr("style") || '')?.['background-image']?.match(/url\(["']?([^"']*)["']?\)/)[1],
+            tipimg = this.NodeListHtml(elem).find("img").attr("data-tipimg-original") || this.NodeListHtml(elem).find("img").attr("src"),
             result = {};
 
         switch (elemType) {
             case "text":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, text),
-                    text: $(elem).children().html()
+                    text: this.NodeListHtml(elem).children().html()
                 });
                 break;
             case "image":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, image),
                     img,
-                    alt: $(elem).find("img").attr("alt"),
-                    zoomable: $(elem).find("img").parent().attr("data-zoomable") === "yes" ? "y" : undefined
+                    alt: this.NodeListHtml(elem).find("img").attr("alt"),
+                    zoomable: this.NodeListHtml(elem).find("img").parent().attr("data-zoomable") === "yes" ? "y" : undefined
                 });
                 break;
             case "shape":
@@ -159,22 +162,22 @@ class Tilda {
                     ...this.getAdaptiveElemStyles(elem, elemId, shape),
                     figure: 'rectangle',
                     bgimg,
-                    zoomable: $(elem).children().attr("data-zoomable") === "yes" ? "y" : undefined
+                    zoomable: this.NodeListHtml(elem).children().attr("data-zoomable") === "yes" ? "y" : undefined
                 });
                 break;
             case "button":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, button),
-                    caption: $(elem).children().html(),
-                    buttonstat: $(elem).find("a").attr("data-tilda-event-name") && "buttonstatsend"
+                    caption: this.NodeListHtml(elem).children().html(),
+                    buttonstat: this.NodeListHtml(elem).find("a").attr("data-tilda-event-name") && "buttonstatsend"
                 });
                 break;
             case "video":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, video),
                     bgimg,
-                    youtubeid: $(elem).find('.tn-atom__videoiframe').attr('data-youtubeid'),
-                    vimeoid: $(elem).find('.tn-atom__videoiframe').attr('data-vimeoid')
+                    youtubeid: this.NodeListHtml(elem).find('.tn-atom__videoiframe').attr('data-youtubeid'),
+                    vimeoid: this.NodeListHtml(elem).find('.tn-atom__videoiframe').attr('data-vimeoid')
                 });
                 break;
             case "tooltip":
@@ -182,19 +185,19 @@ class Tilda {
                     ...this.getAdaptiveElemStyles(elem, elemId, tooltip),
                     bgimg,
                     tipimg,
-                    tipcaption: $(elem).find('.tn-atom__tip-text').text()
+                    tipcaption: this.NodeListHtml(elem).find('.tn-atom__tip-text').text()
                 });
                 break;
             case "html":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, html),
-                    code: $(elem).children().html()
+                    code: this.NodeListHtml(elem).children().html()
                 });
                 break;
             case "form":
                 Object.assign(result, {
                     ...this.getAdaptiveElemStyles(elem, elemId, form),
-                    inputs: $(elem).find(".tn-atom__inputs-textarea").text()
+                    inputs: this.NodeListHtml(elem).find(".tn-atom__inputs-textarea").text()
                 });
                 break;
             case "gallery":
@@ -207,6 +210,7 @@ class Tilda {
             "elem_type": elemType,
             ...link
         });
+
         return JSON.parse(JSON.stringify(result));
     }
 
@@ -299,7 +303,7 @@ $.ajax({
      * Зашифрованный код для вставки в консоль браузера.
      * @return {string}
      */
-    getCodeEncrypted = () => `eval(decodeURIComponent(escape(window.atob('${Buffer.from(this.getCode()).toString('base64')}'))));`;
+    getCodeEncrypted = () => Buffer.from(this.getCode()).toString('base64');
 
 
     /**
@@ -308,8 +312,8 @@ $.ajax({
      * @return {string[]}
      */
     getIdBlocks = (id = '396') => {
-        const $ = cheerio.load(this.html), IdBlocks = [];
-        $("#allrecords").children().toArray().map(item => $(item).attr('data-record-type') === id && IdBlocks.push($(item).attr('id')));
+        const IdBlocks = [];
+        this.NodeListHtml("#allrecords").children().toArray().map(item => this.NodeListHtml(item).attr('data-record-type') === id && IdBlocks.push(this.NodeListHtml(item).attr('id')));
         return IdBlocks
     }
 }
