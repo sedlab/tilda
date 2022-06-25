@@ -5,20 +5,26 @@ import bodyParser from "body-parser";
 import needle from "needle";
 import Tilda from "./script/index.js";
 
-// needle('http://temed.tilda.ws/')
+// needle('https://aronima.ru/')
 //     .then(resp => {
 //         // console.log(resp)
 //         // 1. Получение списка блоков.
-//         // const tilda = new Tilda(resp.body);
-//         // console.log(tilda.getIdBlocks());
+//         const tilda = new Tilda(resp.body);
+//         console.log(tilda.getIdBlocks());
 
 //         // 2. Получение блока.
-//         const tilda = new Tilda(resp.body, 446657978);
+//         // const tilda = new Tilda(resp.body, 392630764);
 //         // console.log(tilda.getCssObjRecordId());
 //         // console.log(tilda.getAdaptiveAB());
-//         console.log(tilda.getElementsRecordId());
+//         // console.log(tilda.getElementsRecordId());
 //         // console.log(tilda.getCode());
 //         // console.log(tilda.getCodeEncrypted());
+
+//         // 3. Получение всех блоков.
+//         // const tilda = new Tilda(resp.body, undefined, "all");
+//         // console.log(tilda.getCode());
+//         // console.log(tilda.getCodeEncrypted());
+
 //     })
 //     .catch(err => {
 //         throw "Ошибка открытия сайта", err;
@@ -51,41 +57,24 @@ try {
                 // console.log(tilda.getIdBlocks());
 
                 // 2. Получение блока.
-                const tilda = new Tilda(resp.body, ID);
+                // const tilda = new Tilda(resp.body, ID);
                 // console.log(tilda.getCssObjRecordId());
                 // console.log(tilda.getAdaptiveAB());
                 // console.log(tilda.getElementsRecordId());
                 // console.log(tilda.getCode());
                 // console.log(tilda.getCodeEncrypted());
+
+                // 3. Получение всех блоков.
+                const tilda = new Tilda(resp.body, undefined, "all");
+                // console.log(tilda.getCode());
+                // console.log(tilda.getCodeEncrypted());
+                
                 return response.json({ src: tilda.getCodeEncrypted() });
             })
             .catch(err => {
                 throw "Ошибка открытия сайта", err;
             });
-        // return response.json({ json: 123 });
     });
-
-    // const URL = "";
-    // const ID = "";
-
-    // // Получение содержимого сайта.
-    // needle(URL)
-    //     .then(resp => {
-    //         // 1. Получение списка блоков.
-    //         // const tilda = new Tilda(resp.body);
-    //         // console.log(tilda.getIdBlocks());
-
-    //         // 2. Получение блока.
-    //         // const tilda = new Tilda(resp.body, ID);
-    //         // console.log(tilda.getCssObjRecordId());
-    //         // console.log(tilda.getAdaptiveAB());
-    //         // console.log(tilda.getElementsRecordId());
-    //         // console.log(tilda.getCode());
-    //         // console.log(tilda.getCodeEncrypted());
-    //     })
-    //     .catch(err => {
-    //         throw "Ошибка открытия сайта", err;
-    //     });
 } catch (err) {
     console.log(err);
 }
@@ -93,6 +82,11 @@ try {
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // function request (body) {
+//     console.clear();
+//     console.log(
+//          '%cВыполняется запрос на сервер...',
+//          'color: #fff; background-color: #fa8669; font-size: x-large'
+//     );
 //     fetch('http://localhost:9999/tilda', {
 //         "headers": {
 //               "accept": "text/plain, */*; q=0.01",
@@ -114,8 +108,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 //         .then(data => {
 //             console.clear();
 //             console.log(
-//                 '%cПодождите пару секунд...',
-//                 'color: blue; font-size: x-large'
+//                 '%cРасшифровка данных полученных с сервера...',
+//                 'color: #fff; background-color: #fa8669; font-size: x-large'
 //             );
 //             eval(decodeURIComponent(escape(window.atob(data.src))));
 //         })
@@ -144,12 +138,15 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 //             .then(data => {
 //                 console.clear();
 //                 console.log(
-//                     '%cПодождите пару секунд...',
-//                     'color: blue; font-size: x-large'
+//                     '%cРасшифровка данных полученных с сервера...',
+//                     'color: #fff; background-color: #fa8669; font-size: x-large'
 //                 );
 //                 eval(decodeURIComponent(escape(window.atob(data.src))));
 //             })
-//             .catch(error => console.log(error))
+//             .catch(error => console.log(
+//                '%cОшибка выполнения запроса на сервер =(',
+//                'color: #fff; background-color: #fa8669; font-size: x-large'
+//              ))
 //         )
 // }
 

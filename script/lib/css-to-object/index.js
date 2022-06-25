@@ -5,10 +5,15 @@ const SEL = '_'
 const SELRE = new RegExp('^' + SEL)
 
 const toObj = (css, opts) => {
-  const wrapped = stylis(SEL, css)
-  const ast = parse(wrapped)
-  const obj = transform(opts)(ast.stylesheet.rules)
-  return obj
+  try {
+    const wrapped = stylis(SEL, css);
+    const ast = parse(wrapped);
+    const obj = transform(opts)(ast.stylesheet.rules);
+    return obj;
+  } catch (err) {
+    console.log("lib ccs-to-object: ", err);
+    return {};
+  }
 }
 
 const transform = opts => (rules, result = {}) => {
@@ -16,19 +21,19 @@ const transform = opts => (rules, result = {}) => {
     if (rule.type === 'media') {
       const key = '@media ' + rule.media
       const decs = transform(opts)(rule.rules)
-      if (typeof result[key] !== 'undefined'){
+      if (typeof result[key] !== 'undefined') {
         Object.assign(result[key], decs);
       } else
         result[key] = decs;
       return
     }
 
-    const [ selector ] = rule.selectors
+    const [selector] = rule.selectors
     const key = selector.replace(SELRE, '').trim();
 
     if (key.length) {
-      if (typeof result[key] !== 'undefined'){
-        Object.assign(result[key], {...getDeclarations(rule.declarations, opts)})
+      if (typeof result[key] !== 'undefined') {
+        Object.assign(result[key], { ...getDeclarations(rule.declarations, opts) })
       } else
         Object.assign(result, {
           [key]: getDeclarations(rule.declarations, opts)
