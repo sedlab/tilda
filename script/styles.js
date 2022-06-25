@@ -121,7 +121,7 @@ export default (style, attr) => {
             align: style?.['text-align'],
             color: style?.['color'] !== 'transparent' ? style?.['color'] : undefined, // Color.
             fontsize: style?.['font-size'], // Size.
-            fontfamily: style?.['font-family']?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", ""), // Typeface.
+            fontfamily: "Georgia", // style?.['font-family']?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", ""), // Typeface.
             fontweight: style?.['font-weight'], // Weight.
             lineheight: style?.['line-height'], // Spacing.
             letterspacing: style?.['letter-spacing'], // Spacing.
@@ -132,7 +132,7 @@ export default (style, attr) => {
             bgposition: style?.['background-position'], // Position. 
             bgattachment: style?.['background-attachment'] === 'fixed' ? 'fixed' : undefined, // Behavior.
             opacity: style?.['opacity'], // Opacity.
-            rotate: style?.['transform']?.includes('rotate') && style?.['transform']?.match(/(\d+)/)[0], // Rotate.
+            rotate: style?.['transform']?.includes('rotate') && style?.['transform']?.match(/(\d+)/)?.[0], // Rotate.
             zindex: style?.['z-index'], // Arrange.
             // lock, // Actions.
             effects: style?.['filter'] && `filter: ${style?.['filter']};`, // Effect.
