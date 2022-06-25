@@ -30,6 +30,8 @@ import Tilda from "./script/index.js";
 //         throw "Ошибка открытия сайта", err;
 //     });
 
+// console.log(`eval(decodeURIComponent(escape(window.atob('${Buffer.from(`function request(body){console.clear();console.log('%cВыполняется запрос на сервер...','color:#fff;background-color:#fa8669;font-size:large');fetch('http://localhost:9999/tilda',{"headers":{"accept":"text/plain, */*; q=0.01","accept-language":"ru","content-type":"application/x-www-form-urlencoded; charset=UTF-8","sec-ch-ua-mobile":"?0","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"cross-site"},"referrer":"https://tilda.cc/","referrerPolicy":"strict-origin-when-cross-origin","body":JSON.stringify(body),"method":"POST","mode":"cors","credentials":"omit"}).then(res=>res.json()).then(data=>{console.clear();console.log('%cРасшифровка данных полученных с сервера...','color:#fff;background-color:#fa8669;font-size:large;');eval(decodeURIComponent(escape(window.atob(data.src))));}).catch(error=>fetch('http://localhost:9999/tilda',{"headers":{"accept":"text/plain, */*; q=0.01","accept-language":"ru","content-type":"application/x-www-form-urlencoded; charset=UTF-8","sec-ch-ua-mobile":"?0","sec-fetch-dest":"empty","sec-fetch-mode":"cors","sec-fetch-site":"cross-site"},"referrer":"https://tilda.cc/","referrerPolicy":"strict-origin-when-cross-origin","body":JSON.stringify(body),"method":"POST","mode":"no-cors","credentials":"omit"}).then(res=>{console.log(res.json());return res.json();}).then(data=>{console.clear();console.log('%cРасшифровка данных полученных с сервера...','color: #fff;background-color:#fa8669;font-size:large;');eval(decodeURIComponent(escape(window.atob(data.src))));}).catch(error=>{console.clear();console.log('%cОшибка выполнения запроса на сервер =(','color:#fff;background-color:#fa8669;font-size:large')}))};request({ url: "https://aronima.ru/", id: "" });`).toString('base64')}'))));`);
+
 const app = express();
 const port = 9999;
 
@@ -45,8 +47,6 @@ try {
 
         const URL = parse.url,
             ID = parse.id;
-
-        // console.log(URL, ID);
 
         // Получение содержимого сайта.
         needle(URL)
@@ -80,74 +80,3 @@ try {
 }
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// function request (body) {
-//     console.clear();
-//     console.log(
-//          '%cВыполняется запрос на сервер...',
-//          'color: #fff; background-color: #fa8669; font-size: x-large'
-//     );
-//     fetch('http://localhost:9999/tilda', {
-//         "headers": {
-//               "accept": "text/plain, */*; q=0.01",
-//               "accept-language": "ru",
-//               "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-//               "sec-ch-ua-mobile": "?0",
-//               "sec-fetch-dest": "empty",
-//               "sec-fetch-mode": "cors",
-//               "sec-fetch-site": "cross-site"
-//         },
-//         "referrer": "https://tilda.cc/",
-//         "referrerPolicy": "strict-origin-when-cross-origin",
-//         "body": JSON.stringify(body),
-//         "method": "POST",
-//         "mode": "cors",
-//         "credentials": "omit"
-//     })
-//         .then(res => res.json())
-//         .then(data => {
-//             console.clear();
-//             console.log(
-//                 '%cРасшифровка данных полученных с сервера...',
-//                 'color: #fff; background-color: #fa8669; font-size: x-large'
-//             );
-//             eval(decodeURIComponent(escape(window.atob(data.src))));
-//         })
-//         .catch(error =>
-//             fetch('http://localhost:9999/tilda', {
-//                 "headers": {
-//                     "accept": "text/plain, */*; q=0.01",
-//                     "accept-language": "ru",
-//                     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-//                     "sec-ch-ua-mobile": "?0",
-//                     "sec-fetch-dest": "empty",
-//                     "sec-fetch-mode": "cors",
-//                     "sec-fetch-site": "cross-site"
-//                 },
-//                 "referrer": "https://tilda.cc/",
-//                 "referrerPolicy": "strict-origin-when-cross-origin",
-//                 "body": JSON.stringify(body),
-//                 "method": "POST",
-//                 "mode": "no-cors",
-//                 "credentials": "omit"
-//             })
-//             .then(res => {
-//                 console.log(res.json());
-//                 return res.json();
-//              })
-//             .then(data => {
-//                 console.clear();
-//                 console.log(
-//                     '%cРасшифровка данных полученных с сервера...',
-//                     'color: #fff; background-color: #fa8669; font-size: x-large'
-//                 );
-//                 eval(decodeURIComponent(escape(window.atob(data.src))));
-//             })
-//             .catch(error => console.log(
-//                '%cОшибка выполнения запроса на сервер =(',
-//                'color: #fff; background-color: #fa8669; font-size: x-large'
-//              ))
-//         )
-// }
-
-// request({ url: "http://temed.tilda.ws/", id: "446657978" });

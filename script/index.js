@@ -255,115 +255,26 @@ class Tilda {
     };
 
     /**
-     * Получает скрипт tilda, создает z-block и редактирует его содержимое.
+     * Получает скрипт "cоздания z-block и редактирования его содержимого".
      * @param {{*}} code
      * @param {[{*}]} codes
      * @return {string} js code.
      */
     getReqestCode = (code, codes) => {
-        let result = `
-        const pageid = window.pageid;
-        
-        function httpBuildQuery(object_to_convert) {
-            var params = new URLSearchParams();
-            var paramsGenerator = function(parent_key, iterate_object) {
-                for (var current_key in iterate_object) {
-                    if (typeof iterate_object[current_key] == 'string' || typeof iterate_object[current_key] == 'number') {
-                        if (parent_key.length > 0) {
-                            var property_path = parent_key + '[' + current_key + ']';
-                        } else {
-                            var property_path = current_key;
-                        }
-                        params.append(property_path, iterate_object[current_key]);
-                    } else if (typeof iterate_object[current_key] == 'object') {
-                        if (parent_key.length > 0) {
-                            var property_path = parent_key + '[' + current_key + ']';
-                        } else {
-                            var property_path = current_key;
-                        }
-                        paramsGenerator(property_path, iterate_object[current_key]);
-                    }
-                }
-            }
-            paramsGenerator('', object_to_convert);
-            return params.toString();
-        }
-        `;
-
+        let result = `var pageid=window.pageid,success=0,error=0;function httpBuildQuery(object_to_convert){var params = new URLSearchParams(),paramsGenerator=function(parent_key,iterate_object){for(var current_key in iterate_object){if(typeof iterate_object[current_key]=='string'||typeof iterate_object[current_key]=='number'){if(parent_key.length>0){var property_path=parent_key+'['+current_key+']';}else{var property_path=current_key;}params.append(property_path,iterate_object[current_key]);}else if(typeof iterate_object[current_key]=='object'){if(parent_key.length>0){var property_path = parent_key + '[' + current_key + ']';}else{var property_path=current_key;};paramsGenerator(property_path,iterate_object[current_key]);};};};paramsGenerator('', object_to_convert);return params.toString();};function statistics(count){console.clear();console.log('%cСоздано: '+success+' из '+count+'; Ошибок: '+error,'color:#fff;background-color:#fa8669;font-size:large;');};`;
         if (code) {
-            result += `$.ajax({
-                url: "/page/submit/",
-                type: "POST",
-                data: {
-                    comm: "addnewrecord",
-                    pageid,
-                    afterid: '',
-                    tplid: 396,
-                },
-                dataType: "text",
-                success: function(t) {
-                    const recordid = $(t).attr("recordid");
-            
-                    $.ajax({
-                        type: "POST",
-                        url: "/zero/submit/",
-                        data: httpBuildQuery({
-                            comm: "savezerocode",
-                            pageid,
-                            recordid,
-                            onlythisfield: "code",
-                            fromzero: "yes",
-                            code: ${code}
-                        }),
-                        dataType: "text",
-                        success: function(data) {
-                            location.reload();
-                        }
-                    });
-                }
-            });`
+            result += `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:'',tplid:396,},dataType:"text",success:function(t){const recordid=$(t).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code}}),dataType:"text",success:function(data){location.reload();}});}});`
         } else {
             for (const [i, code] of codes.entries()) {
-                const newCode = `$.ajax({
-                    url: "/page/submit/",
-                    type: "POST",
-                    data: {
-                        comm: "addnewrecord",
-                        pageid,
-                        afterid: '',
-                        tplid: 396,
-                    },
-                    dataType: "text",
-                    success: function(t) {
-                        const recordid = $(t).attr("recordid");
-                        $.ajax({
-                            type: "POST",
-                            url: "/zero/submit/",
-                            data: httpBuildQuery({
-                                comm: "savezerocode",
-                                pageid,
-                                recordid,
-                                onlythisfield: "code",
-                                fromzero: "yes",
-                                code: ${code}
-                            }),
-                            dataType: "text",
-                            success: function(data) { NEXTCODE },
-                            error: function (data) { NEXTCODE }
-                        });
-                    },
-                    error: function (data) { NEXTCODE }
-                });`
+                const newCode = `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:'',tplid:396,},dataType:"text",success:function(t){const recordid=$(t).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code}}),dataType:"text",success:function(data){success++;statistics(${codes.length});NEXTCODE},error:function(data){error++;statistics(${codes.length});NEXTCODE}});},error:function(data){error++;statistics(${codes.length});NEXTCODE}});`
                 if (result.includes("NEXTCODE"))
                     result = result.replace("NEXTCODE", newCode);
                 else
                     result += newCode;
-
                 if (i === codes.length - 1)
                     result = result.replace("NEXTCODE", "location.reload();");
             }
         }
-
         return result;
     }
 
