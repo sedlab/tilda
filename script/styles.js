@@ -121,7 +121,7 @@ export default (style, attr) => {
             align: style?.['text-align'],
             color: style?.['color'] !== 'transparent' ? style?.['color'] : undefined, // Color.
             fontsize: style?.['font-size'], // Size.
-            fontfamily: "FuturaPT", // style?.['font-family']?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", ""), // Typeface.
+            fontfamily: style?.['font-family']?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", "") && "FuturaPT", // Typeface.
             fontweight: style?.['font-weight'], // Weight.
             lineheight: style?.['line-height'], // Spacing.
             letterspacing: style?.['letter-spacing'], // Spacing.
