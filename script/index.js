@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio";
-import cssToObject from "./lib/css-to-object/index.js";
+import { cssToObject } from "css-to-object";
 import styles from "./styles.js";
 import ab from "./ab.js";
 import { button, form, gallery, html, image, shape, text, tooltip, video } from "./elements/index.js";
