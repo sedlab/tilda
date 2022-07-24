@@ -1,6 +1,6 @@
 {
-    "name": "css-to-object",
-    "version": "1.0.4",
+    "name": "tilda",
+    "version": "1.0.0",
     "description": "",
     "main": "./index.js",
     "types": "./index.d.ts",
