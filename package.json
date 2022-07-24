@@ -1,0 +1,21 @@
+{
+    "name": "css-to-object",
+    "version": "1.0.4",
+    "description": "",
+    "main": "./index.js",
+    "types": "./index.d.ts",
+    "license": "MIT",
+    "author": {
+        "name": "Дмитрий Сединкин",
+        "url": "https://github.com/dsedinkin"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dsedinkin/tilda.git"
+    },
+    "dependencies": {
+        "css-to-object": "dsedinkin/css-to-object#latest",
+        "gradient-parser": "^1.0.2",
+        "cheerio": "^1.0.0-rc.12"
+    }
+}
