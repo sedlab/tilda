@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tilda = void 0;
 const cheerio_1 = require("cheerio");
 const css_to_object_1 = require("css-to-object");
 const styles_1 = __importDefault(require("./styles"));
@@ -285,4 +286,4 @@ class Tilda {
         return idBlocks;
     };
 }
-exports.default = Tilda;
+exports.Tilda = Tilda;
