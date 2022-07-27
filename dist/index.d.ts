@@ -1,5 +1,5 @@
 import { THtml, TId, TRecordId, TElem, TNodeListHtml, TMode, TObj, TCode, TCodes, TIdBlocks } from "./types";
-declare class Tilda {
+export declare class Tilda {
     html: THtml;
     id: TId;
     recordId: TRecordId;
@@ -56,4 +56,3 @@ declare class Tilda {
      */
     getIdBlocks: (id?: string) => TIdBlocks;
 }
-export default Tilda;

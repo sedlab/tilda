@@ -5,7 +5,7 @@ import ab from "./ab";
 import { button, form, gallery, html, image, shape, text, tooltip, video } from "./elements";
 import { THtml, TId, TRecordId, TElem, TNodeListHtml, TMode, TObj, TCode, TCodes, TIdBlocks } from "./types";
 
-class Tilda {
+export class Tilda {
     html: THtml;
     id: TId;
     recordId: TRecordId;
@@ -311,5 +311,3 @@ class Tilda {
         return idBlocks;
     }
 }
-
-export default Tilda;

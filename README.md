@@ -3,14 +3,14 @@
 Библиотека для копирования z-block с tilda.
 
 ## Установка
-`npm i dsedinkin/tilda#latest#latest` или `yarn add dsedinkin/tilda#latest`
+`npm i dsedinkin/tilda#latest` или `yarn add dsedinkin/tilda#latest`
 
 
 > **es6**
 
 ```ts
 import axios from "axios";
-import Tilda from "tilda";
+import { Tilda } from "tilda";
 
 axios("https://aronima.ru/")
     .then(resp => {
@@ -41,7 +41,7 @@ axios("https://aronima.ru/")
 
 ```js
 const axios = require('axios').default;
-const Tilda = require("css-to-object");
+const { Tilda } = require("css-to-object");
 
 axios("https://aronima.ru/")
     .then(resp => {
