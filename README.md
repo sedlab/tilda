@@ -3,7 +3,7 @@
 Библиотека для копирования z-block с tilda.
 
 ## Установка
-`npm i dsedinkin/tilda#latest` или `yarn add dsedinkin/tilda#latest`
+`npm i -s dsedinkin/tilda#latest` или `yarn add dsedinkin/tilda#latest`
 
 
 > **es6**
