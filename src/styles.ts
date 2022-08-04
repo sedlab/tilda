@@ -128,7 +128,7 @@ export default (style: any, attr: any): any => {
             lettercase: style?.['text-transform'] // Letter case.
         },
         other: {
-            bgcolor: style?.['background-color'] !== 'transparent' ? style?.['background-color'] : undefined, // Bg. color.
+            bgcolor: ((style?.['background-image']?.includes("radial-gradient") || style?.['background-image']?.includes("linear-gradient")) ? style?.['background-image'] : undefined) || (style?.['background-color'] !== "transparent" ? style?.['background-color'] : undefined), // Bg. color.
             bgposition: style?.['background-position'], // Position. 
             bgattachment: style?.['background-attachment'] === 'fixed' ? 'fixed' : undefined, // Behavior.
             opacity: style?.['opacity'], // Opacity.
