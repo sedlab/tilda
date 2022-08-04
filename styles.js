@@ -132,7 +132,7 @@ exports.default = (style, attr) => {
             lettercase: style?.['text-transform'] // Letter case.
         },
         other: {
-            bgcolor: style?.['background-color'] !== 'transparent' ? style?.['background-color'] : undefined,
+            bgcolor: ((style?.['background-image']?.includes("radial-gradient") || style?.['background-image']?.includes("linear-gradient")) ? style?.['background-image'] : undefined) || (style?.['background-color'] !== "transparent" ? style?.['background-color'] : undefined),
             bgposition: style?.['background-position'],
             bgattachment: style?.['background-attachment'] === 'fixed' ? 'fixed' : undefined,
             opacity: style?.['opacity'],
