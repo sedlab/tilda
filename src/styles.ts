@@ -1,4 +1,4 @@
-import rgb2hex from "./lib/rgb2hex";
+import { rgbToHex } from "rgb-to-hex";
 
 export default (style: any, attr: any): any => {
     const boxShadow = style?.['box-shadow']?.match(/[^\s\(]+(\(.+\))?/g);
@@ -147,7 +147,7 @@ export default (style: any, attr: any): any => {
             borderstyle: [/*'solid',*/ 'dotted', 'dashed', 'none'].includes(style?.['border-style']) ? style?.['border-style'] : undefined // Style.
         },
         shadow: {
-            shadowcolor: boxShadow?.[4] && rgb2hex(boxShadow?.[4] || ''), // Shadow.
+            shadowcolor: boxShadow?.[4] && rgbToHex(boxShadow?.[4] || ''), // Shadow.
             shadowopacity: (boxShadow?.[4])?.split(",")?.[3]?.match(/^[0-9]{1,2}([,.][0-9]{1,2})?/g)?.[0], // Opacity.
             shadowx: boxShadow?.[0]?.replace("px", ""), // Offset x.
             shadowy: boxShadow?.[1]?.replace("px", ""), // Offset y.

@@ -45,6 +45,7 @@
         "express": "^4.18.1",
         "gradient-parser": "^1.0.2",
         "nodemon": "^2.0.19",
+        "rgb-to-hex": "dsedinkin/rgb-to-hex#latest",
         "yarn": "^1.22.19"
     }
 }

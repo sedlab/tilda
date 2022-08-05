@@ -33,7 +33,8 @@ try {
                     tilda = new Tilda(resp.data, ID);
                 return response.json({ src: tilda.getCodeEncrypted() });
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err);
                 throw "Ошибка открытия сайта.";
             });
     });

@@ -1,11 +1,11 @@
-import rgb2hex from "./lib/rgb2hex";
+import { rgbToHex } from "rgb-to-hex";
 import gradient from "gradient-parser";
 import { TElem } from "./types";
 
 // linear-gradient
 const getColor = (data: any, i: any) => {
     try {
-        return data && rgb2hex(`rgba(${gradient.parse(data)?.[0]?.colorStops?.[i]?.value})`);
+        return data && rgbToHex(`rgba(${gradient.parse(data)?.[0]?.colorStops?.[i]?.value})`);
     } catch {
         return undefined;
     }

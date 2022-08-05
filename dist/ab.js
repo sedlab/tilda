@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const rgb2hex_1 = __importDefault(require("./lib/rgb2hex"));
+const rgb_to_hex_1 = require("rgb-to-hex");
 const gradient_parser_1 = __importDefault(require("gradient-parser"));
 // linear-gradient
 const getColor = (data, i) => {
     try {
-        return data && (0, rgb2hex_1.default)(`rgba(${gradient_parser_1.default.parse(data)?.[0]?.colorStops?.[i]?.value})`);
+        return data && (0, rgb_to_hex_1.rgbToHex)(`rgba(${gradient_parser_1.default.parse(data)?.[0]?.colorStops?.[i]?.value})`);
     }
     catch {
         return undefined;
