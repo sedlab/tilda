@@ -1,9 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const rgb2hex_1 = __importDefault(require("./lib/rgb2hex"));
+const rgb_to_hex_1 = require("rgb-to-hex");
 exports.default = (style, attr) => {
     const boxShadow = style?.['box-shadow']?.match(/[^\s\(]+(\(.+\))?/g);
     return {
@@ -151,7 +148,7 @@ exports.default = (style, attr) => {
             borderstyle: [/*'solid',*/ 'dotted', 'dashed', 'none'].includes(style?.['border-style']) ? style?.['border-style'] : undefined // Style.
         },
         shadow: {
-            shadowcolor: boxShadow?.[4] && (0, rgb2hex_1.default)(boxShadow?.[4] || ''),
+            shadowcolor: boxShadow?.[4] && (0, rgb_to_hex_1.rgbToHex)(boxShadow?.[4] || ''),
             shadowopacity: (boxShadow?.[4])?.split(",")?.[3]?.match(/^[0-9]{1,2}([,.][0-9]{1,2})?/g)?.[0],
             shadowx: boxShadow?.[0]?.replace("px", ""),
             shadowy: boxShadow?.[1]?.replace("px", ""),
