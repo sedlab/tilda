@@ -42,7 +42,7 @@ class Tilda {
     /**
      * Получение css стилей.
      */
-    getCssObjRecordId = () => (0, css_to_object_1.cssToObject)(this.getRecordId().find("style").html(), { numbers: true });
+    getCssObjRecordId = () => (0, css_to_object_1.cssToObject)(this.getRecordId().find("style").html(), { numbers: true, camel: true });
     /**
      * Получение списка атрибутов.
      */
@@ -51,7 +51,7 @@ class Tilda {
             const node = this.getRecordId(elem).get(0), obj = {};
             if (!node)
                 throw "this.getRecordId(elem).get(0)";
-            Object.keys(node.attribs).map(name => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "")] = node.attribs[name]);
+            Object.keys(node.attribs).map(name => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "").replace("data-field-", "").replace("-value", "")] = node.attribs[name]);
             return obj;
         }
         catch (err) {
