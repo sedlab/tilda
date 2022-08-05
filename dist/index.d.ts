@@ -23,7 +23,7 @@ export declare class Tilda {
     /**
      * Получение всех стилей эллемента.
      */
-    getAdaptiveElemStyles: (elem: TElem, elemId: TId, constElemStyles: (stylis: TObj) => TObj) => TObj;
+    getAdaptiveElemStyles: (elem: TElem, elemId: TId, constElemStyles: (styles: TObj) => TObj) => TObj;
     /**
      * Фон z-block.
      * @return {{*}} obj.

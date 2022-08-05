@@ -40,7 +40,7 @@ export class Tilda {
     /**
      * Получение css стилей.
      */
-    getCssObjRecordId = (): any => cssToObject(this.getRecordId().find("style").html(), { numbers: true });
+    getCssObjRecordId = (): any => cssToObject(this.getRecordId().find("style").html(), { numbers: true, camel: true });
 
     /**
      * Получение списка атрибутов.
@@ -49,7 +49,7 @@ export class Tilda {
         try {
             const node = this.getRecordId(elem).get(0), obj: TObj = {};
             if (!node) throw "this.getRecordId(elem).get(0)";
-            Object.keys(node.attribs).map(name => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "")] = node.attribs[name]);
+            Object.keys(node.attribs).map(name => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "").replace("data-field-", "").replace("-value", "")] = node.attribs[name]);
             return obj;
         } catch (err) {
             console.log("Error getAttrElemId: ", err);
@@ -60,7 +60,7 @@ export class Tilda {
     /**
      * Получение всех стилей эллемента.
      */
-    getAdaptiveElemStyles = (elem: TElem, elemId: TId, constElemStyles: (stylis: TObj) => TObj): TObj => {
+    getAdaptiveElemStyles = (elem: TElem, elemId: TId, constElemStyles: (styles: TObj) => TObj): TObj => {
         try {
             const res0 = this.getCssObjRecordId(),
                 res320 = this.getCssObjRecordId()?.["@media screen and (max-width: 479px)"],
