@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const rgb_to_hex_1 = require("rgb-to-hex");
+const css_box_shadow_1 = require("css-box-shadow");
 exports.default = (style, attr) => {
     const boxShadow = style?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g);
     return {
@@ -148,19 +149,19 @@ exports.default = (style, attr) => {
             borderstyle: [/*"solid",*/ "dotted", "dashed", "none"].includes(style?.borderStyle) ? style?.borderStyle : undefined // Style.
         },
         shadow: {
-            shadowcolor: boxShadow?.[4] && (0, rgb_to_hex_1.rgbToHex)(boxShadow?.[4] || ''),
+            shadowcolor: (0, rgb_to_hex_1.rgbToHex)((0, css_box_shadow_1.cssBoxShadow)(style?.boxShadow)?.[0].color),
             shadowopacity: (boxShadow?.[4])?.split(",")?.[3]?.match(/^[0-9]{1,2}([,.][0-9]{1,2})?/g)?.[0],
-            shadowx: boxShadow?.[0]?.replace("px", ""),
-            shadowy: boxShadow?.[1]?.replace("px", ""),
-            shadowblur: boxShadow?.[2]?.replace("px", ""),
-            shadowspread: boxShadow?.[3]?.replace("px", ""), // Spread.
+            shadowx: (0, css_box_shadow_1.cssBoxShadow)(style?.boxShadow)?.[0].x,
+            shadowy: (0, css_box_shadow_1.cssBoxShadow)(style?.boxShadow)?.[0].y,
+            shadowblur: (0, css_box_shadow_1.cssBoxShadow)(style?.boxShadow)?.[0].blur,
+            shadowspread: (0, css_box_shadow_1.cssBoxShadow)(style?.boxShadow)?.[0].spread, // Spread.
         },
         tip: {
             tipposition: attr?.tipposition,
             tipopen: attr?.tipopen,
             tipbgcolor: style?.backgroundColor,
             tipradius: style?.tip?.borderRadius,
-            tipshadowblur: style?.tip?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g)?.[2]?.replace("px", ""),
+            tipshadowblur: (0, css_box_shadow_1.cssBoxShadow)(style?.tip?.boxShadow)?.[0].blur,
             tipwidth: style?.tip?.width, // Width.
             // tipimg, // Tip image.
         },

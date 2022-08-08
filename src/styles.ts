@@ -1,4 +1,5 @@
 import { rgbToHex } from "rgb-to-hex";
+import { cssBoxShadow } from "css-box-shadow";
 
 export default (style: any, attr: any): any => {
     const boxShadow = style?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g);
@@ -147,19 +148,19 @@ export default (style: any, attr: any): any => {
             borderstyle: [/*"solid",*/ "dotted", "dashed", "none"].includes(style?.borderStyle) ? style?.borderStyle : undefined // Style.
         },
         shadow: {
-            shadowcolor: boxShadow?.[4] && rgbToHex(boxShadow?.[4] || ''), // Shadow.
+            shadowcolor: rgbToHex(cssBoxShadow(style?.boxShadow)?.[0].color), // Shadow.
             shadowopacity: (boxShadow?.[4])?.split(",")?.[3]?.match(/^[0-9]{1,2}([,.][0-9]{1,2})?/g)?.[0], // Opacity.
-            shadowx: boxShadow?.[0]?.replace("px", ""), // Offset x.
-            shadowy: boxShadow?.[1]?.replace("px", ""), // Offset y.
-            shadowblur: boxShadow?.[2]?.replace("px", ""), // Blur.
-            shadowspread: boxShadow?.[3]?.replace("px", ""), // Spread.
+            shadowx: cssBoxShadow(style?.boxShadow)?.[0].x, // Offset x.
+            shadowy: cssBoxShadow(style?.boxShadow)?.[0].y, // Offset y.
+            shadowblur: cssBoxShadow(style?.boxShadow)?.[0].blur, // Blur.
+            shadowspread: cssBoxShadow(style?.boxShadow)?.[0].spread, // Spread.
         },
         tip: {
             tipposition: attr?.tipposition, // Position.
             tipopen: attr?.tipopen, // Show.
             tipbgcolor: style?.backgroundColor, // Bg. color.
             tipradius: style?.tip?.borderRadius, // Corner radius.
-            tipshadowblur: style?.tip?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g)?.[2]?.replace("px", ""), // Shadow blur.
+            tipshadowblur: cssBoxShadow(style?.tip?.boxShadow)?.[0].blur, // Shadow blur.
             tipwidth: style?.tip?.width, // Width.
             // tipimg, // Tip image.
         },
