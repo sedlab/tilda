@@ -1,10 +1,8 @@
-'use strict';
-
-var cheerio = require('cheerio');
-var cssToObject = require('css-to-object');
-var rgbToHex = require('rgb-to-hex');
-var cssBoxShadow = require('css-box-shadow');
-var gradient = require('gradient-parser');
+import { load } from 'cheerio';
+import { cssToObject } from 'css-to-object';
+import { rgbToHex } from 'rgb-to-hex';
+import { cssBoxShadow } from 'css-box-shadow';
+import gradient from 'gradient-parser';
 
 var styles = (style, attr) => {
   const boxShadow = style?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g);
@@ -266,17 +264,17 @@ var styles = (style, attr) => {
       // Style.
     },
     shadow: {
-      shadowcolor: rgbToHex.rgbToHex(cssBoxShadow.cssBoxShadow(style?.boxShadow)?.[0].color),
+      shadowcolor: rgbToHex(cssBoxShadow(style?.boxShadow)?.[0].color),
       // Shadow.
       shadowopacity: boxShadow?.[4]?.split(",")?.[3]?.match(/^[0-9]{1,2}([,.][0-9]{1,2})?/g)?.[0],
       // Opacity.
-      shadowx: cssBoxShadow.cssBoxShadow(style?.boxShadow)?.[0].x,
+      shadowx: cssBoxShadow(style?.boxShadow)?.[0].x,
       // Offset x.
-      shadowy: cssBoxShadow.cssBoxShadow(style?.boxShadow)?.[0].y,
+      shadowy: cssBoxShadow(style?.boxShadow)?.[0].y,
       // Offset y.
-      shadowblur: cssBoxShadow.cssBoxShadow(style?.boxShadow)?.[0].blur,
+      shadowblur: cssBoxShadow(style?.boxShadow)?.[0].blur,
       // Blur.
-      shadowspread: cssBoxShadow.cssBoxShadow(style?.boxShadow)?.[0].spread
+      shadowspread: cssBoxShadow(style?.boxShadow)?.[0].spread
       // Spread.
     },
     tip: {
@@ -288,7 +286,7 @@ var styles = (style, attr) => {
       // Bg. color.
       tipradius: style?.tip?.borderRadius,
       // Corner radius.
-      tipshadowblur: cssBoxShadow.cssBoxShadow(style?.tip?.boxShadow)?.[0].blur,
+      tipshadowblur: cssBoxShadow(style?.tip?.boxShadow)?.[0].blur,
       // Shadow blur.
       tipwidth: style?.tip?.width
       // Width.
@@ -374,7 +372,7 @@ var styles = (style, attr) => {
 
 const getColor = (data, i) => {
   try {
-    return data && rgbToHex.rgbToHex(`rgba(${gradient.parse(data)?.[0]?.colorStops?.[i]?.value})`);
+    return data && rgbToHex(`rgba(${gradient.parse(data)?.[0]?.colorStops?.[i]?.value})`);
   } catch {
     return void 0;
   }
@@ -1036,7 +1034,7 @@ class Tilda {
   getRecordId = (elem) => {
     try {
       if (!this.NodeListHtml) {
-        const $ = cheerio.load(this.html);
+        const $ = load(this.html);
         this.NodeListHtml = (data) => $(data);
       }
       return this.NodeListHtml(elem ? elem : this.recordId);
@@ -1048,7 +1046,7 @@ class Tilda {
   /**
    * Получение css стилей.
    */
-  getCssObjRecordId = () => cssToObject.cssToObject(this.getRecordId().find("style").html(), { numbers: true, camel: true });
+  getCssObjRecordId = () => cssToObject(this.getRecordId().find("style").html(), { numbers: true, camel: true });
   /**
    * Получение списка атрибутов.
    */
@@ -1134,7 +1132,7 @@ class Tilda {
         link: this.getRecordId(elem).find("a").attr("href"),
         linktarget: this.getRecordId(elem).find("a").attr("target"),
         relnofollow: this.getRecordId(elem).find("a").attr("rel")
-      }, img = this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src"), bgimg = this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject.cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1], tipimg = this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src"), result = {};
+      }, img = this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src"), bgimg = this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1], tipimg = this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src"), result = {};
       switch (elemType) {
         case "text":
           Object.assign(result, {
@@ -1287,4 +1285,4 @@ class Tilda {
   };
 }
 
-exports.Tilda = Tilda;
+export { Tilda };

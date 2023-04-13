@@ -22,7 +22,7 @@ const getOpacity = (data: any, i: any) => {
 export default (elem: TElem, style: any, attr: any) => ({
     ab_height: attr?.["data-artboard-height"], // style?.artboard?.height ||
     ab_bgcolor: ((style?.artboard?.backgroundImage?.includes("radial-gradient") || style?.artboard?.backgroundImage?.includes("linear-gradient")) ? style?.artboard?.backgroundImage : undefined) || style?.artboard?.backgroundColor,
-    ab_bgimg: elem && elem.find(".t396__carrier").attr("data-original") || attr?.["data-original"] || style?.carrier?.backgroundImage?.match(/url\(["']?([^"']*)["']?\)/)[1],
+    ab_bgimg: elem && elem.find(".t396__carrier").attr("data-original") || attr?.["data-original"] || style?.carrier?.backgroundImage?.match(/url\(["']?([^"']*)["']?\)/)?.[1],
     ab_filteropacity: getOpacity(style?.filter?.backgroundImage, 0),
     ab_filtercolor: getColor(style?.filter?.backgroundImage, 0),
     ab_filteropacity2: getOpacity(style?.filter?.backgroundImage, 1),
