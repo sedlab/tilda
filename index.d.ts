@@ -1,5 +1,17 @@
-import { THtml, TId, TRecordId, TElem, TNodeListHtml, TMode, TObj, TCode, TCodes, TIdBlocks } from "./types";
-export declare class Tilda {
+type THtml = string;
+type TId = number | string | undefined;
+type TRecordId = string;
+type TElem = any;
+type TNodeListHtml = (content: TElem) => any;
+type TMode = "all" | undefined;
+type TObj = {
+    [key: string]: string | number;
+};
+type TCode = string | undefined;
+type TCodes = Array<string>;
+type TIdBlocks = Array<string>;
+
+declare class Tilda {
     html: THtml;
     id: TId;
     recordId: TRecordId;
@@ -56,3 +68,5 @@ export declare class Tilda {
      */
     getIdBlocks: (id?: string) => TIdBlocks;
 }
+
+export { Tilda };
