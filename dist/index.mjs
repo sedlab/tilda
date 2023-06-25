@@ -1037,6 +1037,7 @@ class Tilda {
         const $ = load(this.html);
         this.NodeListHtml = (data) => $(data);
       }
+      ;
       return this.NodeListHtml(elem ? elem : this.recordId);
     } catch (err) {
       console.log("Error getRecordId: ", err);
@@ -1077,7 +1078,7 @@ class Tilda {
       ];
       const id = `${this.recordId} .tn-elem[data-elem-id="${elemId}"]`, adaptiveElemStyles = {};
       size.forEach((s) => {
-        const elemStyles = constElemStyles(styles({ ...s.data[id], ...s.data[id + " .tn-atom"], "hover": s.data[id + " .tn-atom:hover"], "tip": s.data[id + " .tn-atom__tip"] }, this.getAttrElemId(elem, s.res))), newElemStyles = {};
+        const elemStyles = constElemStyles(styles({ ...s.data?.[id], ...s.data?.[id + " .tn-atom"], "hover": s.data?.[id + " .tn-atom:hover"], "tip": s.data?.[id + " .tn-atom__tip"] }, this.getAttrElemId(elem, s.res))), newElemStyles = {};
         Object.keys(elemStyles).map((style) => newElemStyles[style + s.res] = elemStyles[style]);
         return Object.assign(adaptiveElemStyles, newElemStyles);
       });
@@ -1195,6 +1196,7 @@ class Tilda {
           Object.assign(result, this.getAdaptiveElemStyles(elem, elemId, gallery));
           break;
       }
+      ;
       Object.assign(result, {
         "elem_id": elemId,
         "elem_type": elemType,
@@ -1227,14 +1229,20 @@ class Tilda {
       } else if (codes) {
         for (const [i, code2] of codes.entries()) {
           const newCode = `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:"",tplid:396},dataType:"text",success:(t)=>{const recordid=$(t).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code2}}),dataType:"text",success:()=>{success++;statistics(${codes.length});NEXTCODE},error:()=>{error++;statistics(${codes.length});NEXTCODE}});},error:()=>{error++;statistics(${codes.length});NEXTCODE}});`;
-          if (result.includes("NEXTCODE"))
+          if (result.includes("NEXTCODE")) {
             result = result.replace("NEXTCODE", newCode);
-          else
+          } else {
             result += newCode;
-          if (i === codes.length - 1)
+          }
+          ;
+          if (i === codes.length - 1) {
             result = result.replace("NEXTCODE", "location.reload();");
+          }
+          ;
         }
+        ;
       }
+      ;
       return result;
     } catch (err) {
       console.log("Error getReqestCode: ", err);

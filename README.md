@@ -18,8 +18,8 @@ import { Tilda } from "tilda";
 > ES5
 
 ```js
-const axios = require('axios').default;
-const { Tilda } = require("css-to-object");
+const axios = require("axios").default;
+const { Tilda } = require("tilda");
 ```
 
 ## Пример
