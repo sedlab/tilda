@@ -59,7 +59,7 @@ export default (styles: any) => ({
   align: styles?.font?.align,
   color: styles?.font?.color,
   fontsize: styles?.font?.fontsize,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   fontweight: styles?.font?.fontweight,
   // variationweight,
   lineheight: styles?.font?.lineheight,

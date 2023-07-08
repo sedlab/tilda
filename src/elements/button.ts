@@ -8,7 +8,7 @@ export default (styles: any) => ({
   width: styles?.pos?.width,
   height: styles?.pos?.height,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,

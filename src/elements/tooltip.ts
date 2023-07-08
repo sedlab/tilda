@@ -12,7 +12,7 @@ export default (styles: any) => ({
   left: styles?.pos?.left,
   opacity: styles?.other?.opacity,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,

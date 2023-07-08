@@ -216,8 +216,7 @@ var styles = (style, attr) => {
       // Color.
       fontsize: style?.fontSize,
       // Size.
-      fontfamily: style?.fontFamily?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", "") || "Roboto",
-      // Typeface.
+      // fontfamily: style?.fontFamily?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", "") || "Roboto", // Typeface.
       fontweight: style?.fontWeight,
       // Weight.
       lineheight: style?.lineHeight,
@@ -417,7 +416,7 @@ var button = (styles) => ({
   width: styles?.pos?.width,
   height: styles?.pos?.height,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,
@@ -626,7 +625,7 @@ var gallery = (styles) => ({
   align: styles?.font?.align,
   color: styles?.font?.color,
   fontsize: styles?.font?.fontsize,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   fontweight: styles?.font?.fontweight,
   // variationweight,
   lineheight: styles?.font?.lineheight,
@@ -844,7 +843,7 @@ var text = (styles) => ({
   fontsize: styles?.font?.fontsize,
   width: styles?.pos?.width,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,
@@ -904,7 +903,7 @@ var tooltip = (styles) => ({
   left: styles?.pos?.left,
   opacity: styles?.other?.opacity,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,
@@ -1133,6 +1132,8 @@ class Tilda {
         link: this.getRecordId(elem).find("a").attr("href"),
         linktarget: this.getRecordId(elem).find("a").attr("target"),
         relnofollow: this.getRecordId(elem).find("a").attr("rel")
+      }, font = {
+        fontfamily: "TildaSans"
       }, img = this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src"), bgimg = this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1], tipimg = this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src"), result = {};
       switch (elemType) {
         case "text":
@@ -1200,7 +1201,8 @@ class Tilda {
       Object.assign(result, {
         "elem_id": elemId,
         "elem_type": elemType,
-        ...link
+        ...link,
+        ...font
       });
       return JSON.parse(JSON.stringify(result));
     } catch (err) {

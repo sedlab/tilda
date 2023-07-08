@@ -122,7 +122,7 @@ export default (style: any, attr: any): any => {
       align: style?.textAlign,
       color: style?.color !== "transparent" ? style?.color : undefined, // Color.
       fontsize: style?.fontSize, // Size.
-      fontfamily: style?.fontFamily?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", "") || "Roboto", // Typeface.
+      // fontfamily: style?.fontFamily?.match(/'(.*?)'/g)?.[0]?.replaceAll("'", "") || "Roboto", // Typeface.
       fontweight: style?.fontWeight, // Weight.
       lineheight: style?.lineHeight, // Spacing.
       letterspacing: style?.letterSpacing, // Spacing.

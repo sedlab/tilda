@@ -7,7 +7,7 @@ export default (styles: any) => ({
   fontsize: styles?.font?.fontsize,
   width: styles?.pos?.width,
   color: styles?.font?.color,
-  fontfamily: styles?.font?.fontfamily,
+  // fontfamily: styles?.font?.fontfamily,
   lineheight: styles?.font?.lineheight,
   fontweight: styles?.font?.fontweight,
   // variationweight,
