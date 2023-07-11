@@ -1,5 +1,6 @@
 import { load } from "cheerio";
 import { cssToObject } from "css-to-object";
+import { getFullPathImg } from "./utils";
 
 import styles from "./styles";
 import ab from "./ab";
@@ -152,9 +153,9 @@ export class Tilda {
         font = {
           fontfamily: "TildaSans"
         },
-        img = this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src"),
-        bgimg = this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1],
-        tipimg = this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src"),
+        img = getFullPathImg(this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src")),
+        bgimg = getFullPathImg(this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1]),
+        tipimg = getFullPathImg(this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src")),
         result = {};
 
       switch (elemType) {

@@ -35,6 +35,6 @@
     "express": "^4.18.2",
     "gradient-parser": "^1.0.2",
     "rgb-to-hex": "dsedinkin/rgb-to-hex#latest",
-    "tilda": "dsedinkin/tilda#v1.0.9"
+    "tilda": "dsedinkin/tilda#v1.1.0"
   }
 }
