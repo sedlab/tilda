@@ -1,25 +1,25 @@
 {
   "name": "tilda",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "",
   "main": "./index.js",
   "types": "./index.d.ts",
   "license": "MIT",
   "author": {
-    "name": "Дмитрий Сединкин",
-    "url": "https://github.com/dsedinkin"
+    "name": "SedLab",
+    "url": "https://github.com/sedlab"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dsedinkin/tilda.git"
+    "url": "git+https://github.com/sedlab/tilda.git"
   },
   "devDependencies": {
     "@types/gradient-parser": "^0.1.2"
   },
   "dependencies": {
-    "css-box-shadow": "dsedinkin/css-box-shadow#latest",
-    "css-to-object": "dsedinkin/css-to-object#latest",
-    "rgb-to-hex": "dsedinkin/rgb-to-hex#latest",
+    "css-box-shadow": "sedlab/css-box-shadow#latest",
+    "css-to-object": "sedlab/css-to-object#latest",
+    "rgb-to-hex": "sedlab/rgb-to-hex#latest",
     "gradient-parser": "^1.0.2",
     "cheerio": "^1.0.0-rc.12"
   }

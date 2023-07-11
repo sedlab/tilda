@@ -8,7 +8,7 @@
     "copy:linux": "cp -r static/* ./dist",
     "build": "yarn prebuild && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript && yarn copy",
     "start": "ts-node --project tsconfig.node.json -r tsconfig-paths/register index.ts",
-    "release": "git subtree push --prefix dist https://github.com/dsedinkin/tilda release"
+    "release": "git subtree push --prefix dist https://github.com/sedlab/tilda release"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.2",
@@ -30,11 +30,11 @@
     "axios": "^1.3.5",
     "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
-    "css-box-shadow": "dsedinkin/css-box-shadow#latest",
-    "css-to-object": "dsedinkin/css-to-object#latest",
+    "css-box-shadow": "sedlab/css-box-shadow#latest",
+    "css-to-object": "sedlab/css-to-object#latest",
     "express": "^4.18.2",
     "gradient-parser": "^1.0.2",
-    "rgb-to-hex": "dsedinkin/rgb-to-hex#latest",
-    "tilda": "dsedinkin/tilda#v1.1.0"
+    "rgb-to-hex": "sedlab/rgb-to-hex#latest",
+    "tilda": "sedlab/tilda#v1.1.1"
   }
 }
