@@ -4,7 +4,7 @@
 
 ## Установка
 
-`npm i -s dsedinkin/tilda#latest` или `yarn add dsedinkin/tilda#latest`
+`npm i -s sedlab/tilda#latest` или `yarn add sedlab/tilda#latest`
 
 ## Использование
 
