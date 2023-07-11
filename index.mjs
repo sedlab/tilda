@@ -4,6 +4,17 @@ import { rgbToHex } from 'rgb-to-hex';
 import { cssBoxShadow } from 'css-box-shadow';
 import gradient from 'gradient-parser';
 
+const getFullPathImg = (link) => {
+  if (link?.length > 0) {
+    if (link?.includes("/static_tildacdn_com/")) {
+      return link?.replace("/static_tildacdn_com/", "https://static.tildacdn.com/");
+    }
+    return link;
+  } else {
+    return void 0;
+  }
+};
+
 var styles = (style, attr) => {
   const boxShadow = style?.boxShadow?.match(/[^\s\(]+(\(.+\))?/g);
   return {
@@ -387,7 +398,7 @@ var ab = (elem, style, attr) => ({
   ab_height: attr?.["data-artboard-height"],
   // style?.artboard?.height ||
   ab_bgcolor: (style?.artboard?.backgroundImage?.includes("radial-gradient") || style?.artboard?.backgroundImage?.includes("linear-gradient") ? style?.artboard?.backgroundImage : void 0) || style?.artboard?.backgroundColor,
-  ab_bgimg: elem && elem.find(".t396__carrier").attr("data-original") || attr?.["data-original"] || style?.carrier?.backgroundImage?.match(/url\(["']?([^"']*)["']?\)/)?.[1],
+  ab_bgimg: getFullPathImg(elem && elem.find(".t396__carrier").attr("data-original") || attr?.["data-original"] || style?.carrier?.backgroundImage?.match(/url\(["']?([^"']*)["']?\)/)?.[1]),
   ab_filteropacity: getOpacity(style?.filter?.backgroundImage, 0),
   ab_filtercolor: getColor(style?.filter?.backgroundImage, 0),
   ab_filteropacity2: getOpacity(style?.filter?.backgroundImage, 1),
@@ -1134,7 +1145,7 @@ class Tilda {
         relnofollow: this.getRecordId(elem).find("a").attr("rel")
       }, font = {
         fontfamily: "TildaSans"
-      }, img = this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src"), bgimg = this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1], tipimg = this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src"), result = {};
+      }, img = getFullPathImg(this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src")), bgimg = getFullPathImg(this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1]), tipimg = getFullPathImg(this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src")), result = {};
       switch (elemType) {
         case "text":
           Object.assign(result, {
