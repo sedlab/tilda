@@ -1026,286 +1026,292 @@ var video = (styles) => ({
   // layer,
 });
 
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 class Tilda {
-  html;
-  id;
-  recordId;
-  NodeListHtml;
-  mode;
   /**
    * Конструктор.
    */
   constructor(html2, id, mode) {
+    __publicField(this, "html");
+    __publicField(this, "id");
+    __publicField(this, "recordId");
+    __publicField(this, "NodeListHtml");
+    __publicField(this, "mode");
+    /**
+     */
+    __publicField(this, "getRecordId", (elem) => {
+      try {
+        if (!this.NodeListHtml) {
+          const $ = cheerio.load(this.html);
+          this.NodeListHtml = (data) => $(data);
+        }
+        ;
+        return this.NodeListHtml(elem ? elem : this.recordId);
+      } catch (err) {
+        console.log("Error getRecordId: ", err);
+        return {};
+      }
+    });
+    /**
+     * Получение css стилей.
+     */
+    __publicField(this, "getCssObjRecordId", () => cssToObject.cssToObject(this.getRecordId().find("style").html(), { numbers: true, camel: true }));
+    /**
+     * Получение списка атрибутов.
+     */
+    __publicField(this, "getAttrElemId", (elem, res) => {
+      try {
+        const node = this.getRecordId(elem).get(0), obj = {};
+        if (!node)
+          throw "this.getRecordId(elem).get(0)";
+        Object.keys(node.attribs).map((name) => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "").replace("data-field-", "").replace("-value", "")] = node.attribs[name]);
+        return obj;
+      } catch (err) {
+        console.log("Error getAttrElemId: ", err);
+        return {};
+      }
+    });
+    /**
+     * Получение всех стилей эллемента.
+     */
+    __publicField(this, "getAdaptiveElemStyles", (elem, elemId, constElemStyles) => {
+      try {
+        const res0 = this.getCssObjRecordId(), res320 = this.getCssObjRecordId()?.["@media screen and (max-width: 479px)"], res480 = this.getCssObjRecordId()?.["@media screen and (max-width: 639px)"], res640 = this.getCssObjRecordId()?.["@media screen and (max-width: 959px)"], res960 = this.getCssObjRecordId()?.["@media screen and (max-width: 1199px)"];
+        const size = [
+          { res: "", data: res0 },
+          { res: "-res-320", data: res320 },
+          { res: "-res-480", data: res480 },
+          { res: "-res-640", data: res640 },
+          { res: "-res-960", data: res960 }
+        ];
+        const id = `${this.recordId} .tn-elem[data-elem-id="${elemId}"]`, adaptiveElemStyles = {};
+        size.forEach((s) => {
+          const elemStyles = constElemStyles(styles({ ...s.data?.[id], ...s.data?.[id + " .tn-atom"], "hover": s.data?.[id + " .tn-atom:hover"], "tip": s.data?.[id + " .tn-atom__tip"] }, this.getAttrElemId(elem, s.res))), newElemStyles = {};
+          Object.keys(elemStyles).map((style) => newElemStyles[style + s.res] = elemStyles[style]);
+          return Object.assign(adaptiveElemStyles, newElemStyles);
+        });
+        return adaptiveElemStyles;
+      } catch (err) {
+        console.log("Error getAdaptiveElemStyles: ", err);
+        return {};
+      }
+    });
+    /**
+     * Фон z-block.
+     * @return {{*}} obj.
+     */
+    __publicField(this, "getAdaptiveAB", () => {
+      try {
+        const res0 = this.getCssObjRecordId(), res320 = this.getCssObjRecordId()?.["@media screen and (max-width: 479px)"], res480 = this.getCssObjRecordId()?.["@media screen and (max-width: 639px)"], res640 = this.getCssObjRecordId()?.["@media screen and (max-width: 959px)"], res960 = this.getCssObjRecordId()?.["@media screen and (max-width: 1199px)"];
+        const size = [
+          { res: "", data: res0 },
+          { res: "-res-320", data: res320 },
+          { res: "-res-480", data: res480 },
+          { res: "-res-640", data: res640 },
+          { res: "-res-960", data: res960 }
+        ];
+        const adaptiveElemStyles = {};
+        size.forEach((s) => {
+          const elemId = `[data-artboard-recid="${this.id}"]`;
+          const elemStyles = ab(
+            s.res === "" && this.getRecordId(elemId),
+            {
+              artboard: s.data?.[`${this.recordId} .t396__artboard`],
+              carrier: s.data?.[`${this.recordId} .t396__carrier`],
+              filter: s.data?.[`${this.recordId} .t396__filter`]
+            },
+            this.getAttrElemId(elemId, s.res)
+          ), newElemStyles = {};
+          Object.keys(elemStyles).map((style) => newElemStyles[style + s.res] = elemStyles[style]);
+          return Object.assign(adaptiveElemStyles, newElemStyles);
+        });
+        return JSON.parse(JSON.stringify(adaptiveElemStyles));
+      } catch (err) {
+        console.log("Error getAdaptiveAB: ", err);
+        return {};
+      }
+    });
+    /**
+     * Получение стилей элемента.
+     * @return {{*}} obj.
+     */
+    __publicField(this, "getElemStyles", (elem) => {
+      try {
+        const elemId = this.getRecordId(elem).attr("data-elem-id"), elemType = this.getRecordId(elem).attr("data-elem-type"), link = {
+          link: this.getRecordId(elem).find("a").attr("href"),
+          linktarget: this.getRecordId(elem).find("a").attr("target"),
+          relnofollow: this.getRecordId(elem).find("a").attr("rel")
+        }, font = {
+          fontfamily: "TildaSans"
+        }, img = getFullPathImg(this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src")), bgimg = getFullPathImg(this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject.cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1]), tipimg = getFullPathImg(this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src")), result = {};
+        switch (elemType) {
+          case "text":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, text),
+              text: this.getRecordId(elem).children().html()
+            });
+            break;
+          case "image":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, image),
+              img,
+              alt: this.getRecordId(elem).find("img").attr("alt"),
+              zoomable: this.getRecordId(elem).find("img").parent().attr("data-zoomable") === "yes" ? "y" : void 0
+            });
+            break;
+          case "shape":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, shape),
+              figure: "rectangle",
+              bgimg,
+              zoomable: this.getRecordId(elem).children().attr("data-zoomable") === "yes" ? "y" : void 0
+            });
+            break;
+          case "button":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, button),
+              caption: this.getRecordId(elem).children().html(),
+              buttonstat: this.getRecordId(elem).find("a").attr("data-tilda-event-name") && "buttonstatsend"
+            });
+            break;
+          case "video":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, video),
+              bgimg,
+              youtubeid: this.getRecordId(elem).find(".tn-atom__videoiframe").attr("data-youtubeid"),
+              vimeoid: this.getRecordId(elem).find(".tn-atom__videoiframe").attr("data-vimeoid")
+            });
+            break;
+          case "tooltip":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, tooltip),
+              bgimg,
+              tipimg,
+              tipcaption: this.getRecordId(elem).find(".tn-atom__tip-text").text()
+            });
+            break;
+          case "html":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, html),
+              code: this.getRecordId(elem).children().html()
+            });
+            break;
+          case "form":
+            Object.assign(result, {
+              ...this.getAdaptiveElemStyles(elem, elemId, form),
+              inputs: this.getRecordId(elem).find(".tn-atom__inputs-textarea").text()
+            });
+            break;
+          case "gallery":
+            Object.assign(result, this.getAdaptiveElemStyles(elem, elemId, gallery));
+            break;
+        }
+        ;
+        Object.assign(result, {
+          "elem_id": elemId,
+          "elem_type": elemType,
+          ...link,
+          ...font
+        });
+        return JSON.parse(JSON.stringify(result));
+      } catch (err) {
+        console.log("Error getElemStyles: ", err);
+        return {};
+      }
+    });
+    /**
+     * Получает стили всех эллементов.
+     */
+    __publicField(this, "getElementsRecordId", () => {
+      try {
+        return this.getRecordId().find(".t396__elem").toArray().map((elem) => this.getElemStyles(elem));
+      } catch (err) {
+        console.log("Error getElementsRecordId: ", err);
+      }
+    });
+    /**
+     * Получает скрипт "cоздания z-block и редактирования его содержимого".
+     */
+    __publicField(this, "getReqestCode", (code, codes) => {
+      try {
+        let result = `let success=0,error=0;const pageid=window.pageid,httpBuildQuery=o=>{const t=new URLSearchParams,l=(e,r)=>{for(var c in r){let o;"string"==typeof r[c]||"number"==typeof r[c]?(o=0<e.length?e+"["+c+"]":c,t.append(o,r[c])):"object"==typeof r[c]&&(o=0<e.length?e+"["+c+"]":c,l(o,r[c]))}};return l("",o),t.toString()},log=(o="")=>{console.clear(),console.log("%c"+o,"color:#fff;background-color:#fa8669;font-size:large;")},statistics=o=>{console.clear(),console.log("%c\u0421\u043E\u0437\u0434\u0430\u043D\u043E: "+success+" \u0438\u0437 "+o+"; \u041E\u0448\u0438\u0431\u043E\u043A: "+error,"color:#fff;background-color:#fa8669;font-size:large;")};`;
+        if (code) {
+          result += `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:"",tplid:396,with_code:"yes"},dataType:"text",success:(t)=>{const recordid=$(JSON.parse(t).html).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code}}),dataType:"text",success:()=>location.reload(),error:()=>log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0437\u0430\u043F\u0440\u043E\u0441\u0430 /zero/submit/ \u043D\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 Tilda")})},error:()=>log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0437\u0430\u043F\u0440\u043E\u0441\u0430 /page/submit/ \u043D\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 Tilda")});`;
+        } else if (codes) {
+          for (const [i, code2] of codes.entries()) {
+            const newCode = `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:"",tplid:396,with_code:"yes"},dataType:"text",success:(t)=>{const recordid=$(JSON.parse(t).html).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code2}}),dataType:"text",success:()=>{success++;statistics(${codes.length});NEXTCODE},error:()=>{error++;statistics(${codes.length});NEXTCODE}})},error:()=>{error++;statistics(${codes.length});NEXTCODE}});`;
+            if (result.includes("NEXTCODE")) {
+              result = result.replace("NEXTCODE", newCode);
+            } else {
+              result += newCode;
+            }
+            ;
+            if (i === codes.length - 1) {
+              result = result.replace("NEXTCODE", "location.reload();");
+            }
+            ;
+          }
+          ;
+        }
+        ;
+        return result;
+      } catch (err) {
+        console.log("Error getReqestCode: ", err);
+        return "";
+      }
+    });
+    /**
+     * Код для вставки в консоль браузера.
+     */
+    __publicField(this, "getCode", () => {
+      if (this.mode === "all") {
+        const codes = [];
+        for (let id of this.getIdBlocks()) {
+          this.id = id;
+          this.recordId = `#rec${id}`;
+          codes.push(JSON.stringify(JSON.stringify({
+            ...this.getElementsRecordId(),
+            ...this.getAdaptiveAB(),
+            timestamp: (/* @__PURE__ */ new Date()).getTime()
+          })));
+        }
+        return this.getReqestCode(void 0, codes);
+      } else {
+        const code = JSON.stringify(JSON.stringify({
+          ...this.getElementsRecordId(),
+          ...this.getAdaptiveAB(),
+          timestamp: (/* @__PURE__ */ new Date()).getTime()
+        }));
+        return this.getReqestCode(code);
+      }
+    });
+    /**
+     * Зашифрованный код для вставки в консоль браузера.
+     * @return {string}
+     */
+    __publicField(this, "getCodeEncrypted", () => Buffer.from(this.getCode()).toString("base64"));
+    /**
+     * Получение списка блоков id.
+     */
+    __publicField(this, "getIdBlocks", (id = "396") => {
+      const idBlocks = [];
+      try {
+        this.getRecordId("div").toArray().map((item) => this.getRecordId(item)?.attr("data-record-type") === id && idBlocks.push(this.getRecordId(item)?.attr("id")?.replace("rec", "")));
+      } catch (err) {
+        console.log("Error getIdBlocks: ", err);
+      }
+      return idBlocks;
+    });
     this.html = html2;
     this.id = id;
     this.recordId = `#rec${id}`;
     this.mode = mode;
   }
-  /**
-   */
-  getRecordId = (elem) => {
-    try {
-      if (!this.NodeListHtml) {
-        const $ = cheerio.load(this.html);
-        this.NodeListHtml = (data) => $(data);
-      }
-      ;
-      return this.NodeListHtml(elem ? elem : this.recordId);
-    } catch (err) {
-      console.log("Error getRecordId: ", err);
-      return {};
-    }
-  };
-  /**
-   * Получение css стилей.
-   */
-  getCssObjRecordId = () => cssToObject.cssToObject(this.getRecordId().find("style").html(), { numbers: true, camel: true });
-  /**
-   * Получение списка атрибутов.
-   */
-  getAttrElemId = (elem, res) => {
-    try {
-      const node = this.getRecordId(elem).get(0), obj = {};
-      if (!node)
-        throw "this.getRecordId(elem).get(0)";
-      Object.keys(node.attribs).map((name) => obj[name.includes(res) && node.attribs[name] && node.attribs[name] !== "" && name.replace(res, "").replace("data-field-", "").replace("-value", "")] = node.attribs[name]);
-      return obj;
-    } catch (err) {
-      console.log("Error getAttrElemId: ", err);
-      return {};
-    }
-  };
-  /**
-   * Получение всех стилей эллемента.
-   */
-  getAdaptiveElemStyles = (elem, elemId, constElemStyles) => {
-    try {
-      const res0 = this.getCssObjRecordId(), res320 = this.getCssObjRecordId()?.["@media screen and (max-width: 479px)"], res480 = this.getCssObjRecordId()?.["@media screen and (max-width: 639px)"], res640 = this.getCssObjRecordId()?.["@media screen and (max-width: 959px)"], res960 = this.getCssObjRecordId()?.["@media screen and (max-width: 1199px)"];
-      const size = [
-        { res: "", data: res0 },
-        { res: "-res-320", data: res320 },
-        { res: "-res-480", data: res480 },
-        { res: "-res-640", data: res640 },
-        { res: "-res-960", data: res960 }
-      ];
-      const id = `${this.recordId} .tn-elem[data-elem-id="${elemId}"]`, adaptiveElemStyles = {};
-      size.forEach((s) => {
-        const elemStyles = constElemStyles(styles({ ...s.data?.[id], ...s.data?.[id + " .tn-atom"], "hover": s.data?.[id + " .tn-atom:hover"], "tip": s.data?.[id + " .tn-atom__tip"] }, this.getAttrElemId(elem, s.res))), newElemStyles = {};
-        Object.keys(elemStyles).map((style) => newElemStyles[style + s.res] = elemStyles[style]);
-        return Object.assign(adaptiveElemStyles, newElemStyles);
-      });
-      return adaptiveElemStyles;
-    } catch (err) {
-      console.log("Error getAdaptiveElemStyles: ", err);
-      return {};
-    }
-  };
-  /**
-   * Фон z-block.
-   * @return {{*}} obj.
-   */
-  getAdaptiveAB = () => {
-    try {
-      const res0 = this.getCssObjRecordId(), res320 = this.getCssObjRecordId()?.["@media screen and (max-width: 479px)"], res480 = this.getCssObjRecordId()?.["@media screen and (max-width: 639px)"], res640 = this.getCssObjRecordId()?.["@media screen and (max-width: 959px)"], res960 = this.getCssObjRecordId()?.["@media screen and (max-width: 1199px)"];
-      const size = [
-        { res: "", data: res0 },
-        { res: "-res-320", data: res320 },
-        { res: "-res-480", data: res480 },
-        { res: "-res-640", data: res640 },
-        { res: "-res-960", data: res960 }
-      ];
-      const adaptiveElemStyles = {};
-      size.forEach((s) => {
-        const elemId = `[data-artboard-recid="${this.id}"]`;
-        const elemStyles = ab(
-          s.res === "" && this.getRecordId(elemId),
-          {
-            artboard: s.data?.[`${this.recordId} .t396__artboard`],
-            carrier: s.data?.[`${this.recordId} .t396__carrier`],
-            filter: s.data?.[`${this.recordId} .t396__filter`]
-          },
-          this.getAttrElemId(elemId, s.res)
-        ), newElemStyles = {};
-        Object.keys(elemStyles).map((style) => newElemStyles[style + s.res] = elemStyles[style]);
-        return Object.assign(adaptiveElemStyles, newElemStyles);
-      });
-      return JSON.parse(JSON.stringify(adaptiveElemStyles));
-    } catch (err) {
-      console.log("Error getAdaptiveAB: ", err);
-      return {};
-    }
-  };
-  /**
-   * Получение стилей элемента.
-   * @return {{*}} obj.
-   */
-  getElemStyles = (elem) => {
-    try {
-      const elemId = this.getRecordId(elem).attr("data-elem-id"), elemType = this.getRecordId(elem).attr("data-elem-type"), link = {
-        link: this.getRecordId(elem).find("a").attr("href"),
-        linktarget: this.getRecordId(elem).find("a").attr("target"),
-        relnofollow: this.getRecordId(elem).find("a").attr("rel")
-      }, font = {
-        fontfamily: "TildaSans"
-      }, img = getFullPathImg(this.getRecordId(elem).find("img").attr("data-original") || this.getRecordId(elem).find("img").attr("src")), bgimg = getFullPathImg(this.getRecordId(elem).find(".t-bgimg").attr("data-original") || cssToObject.cssToObject(this.getRecordId(elem).find(".tn-atom").attr("style") || "", { numbers: true })?.["background-image"]?.match(/url\(["']?([^"']*)["']?\)/)?.[1]), tipimg = getFullPathImg(this.getRecordId(elem).find("img").attr("data-tipimg-original") || this.getRecordId(elem).find("img").attr("src")), result = {};
-      switch (elemType) {
-        case "text":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, text),
-            text: this.getRecordId(elem).children().html()
-          });
-          break;
-        case "image":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, image),
-            img,
-            alt: this.getRecordId(elem).find("img").attr("alt"),
-            zoomable: this.getRecordId(elem).find("img").parent().attr("data-zoomable") === "yes" ? "y" : void 0
-          });
-          break;
-        case "shape":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, shape),
-            figure: "rectangle",
-            bgimg,
-            zoomable: this.getRecordId(elem).children().attr("data-zoomable") === "yes" ? "y" : void 0
-          });
-          break;
-        case "button":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, button),
-            caption: this.getRecordId(elem).children().html(),
-            buttonstat: this.getRecordId(elem).find("a").attr("data-tilda-event-name") && "buttonstatsend"
-          });
-          break;
-        case "video":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, video),
-            bgimg,
-            youtubeid: this.getRecordId(elem).find(".tn-atom__videoiframe").attr("data-youtubeid"),
-            vimeoid: this.getRecordId(elem).find(".tn-atom__videoiframe").attr("data-vimeoid")
-          });
-          break;
-        case "tooltip":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, tooltip),
-            bgimg,
-            tipimg,
-            tipcaption: this.getRecordId(elem).find(".tn-atom__tip-text").text()
-          });
-          break;
-        case "html":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, html),
-            code: this.getRecordId(elem).children().html()
-          });
-          break;
-        case "form":
-          Object.assign(result, {
-            ...this.getAdaptiveElemStyles(elem, elemId, form),
-            inputs: this.getRecordId(elem).find(".tn-atom__inputs-textarea").text()
-          });
-          break;
-        case "gallery":
-          Object.assign(result, this.getAdaptiveElemStyles(elem, elemId, gallery));
-          break;
-      }
-      ;
-      Object.assign(result, {
-        "elem_id": elemId,
-        "elem_type": elemType,
-        ...link,
-        ...font
-      });
-      return JSON.parse(JSON.stringify(result));
-    } catch (err) {
-      console.log("Error getElemStyles: ", err);
-      return {};
-    }
-  };
-  /**
-   * Получает стили всех эллементов.
-   */
-  getElementsRecordId = () => {
-    try {
-      return this.getRecordId().find(".t396__elem").toArray().map((elem) => this.getElemStyles(elem));
-    } catch (err) {
-      console.log("Error getElementsRecordId: ", err);
-    }
-  };
-  /**
-   * Получает скрипт "cоздания z-block и редактирования его содержимого".
-   */
-  getReqestCode = (code, codes) => {
-    try {
-      let result = `let success=0,error=0;const pageid=window.pageid,httpBuildQuery=(object)=>{const params=new URLSearchParams(),paramsGenerator=(parent_key,iterate_object)=>{for(let current_key in iterate_object){let property_path;if(typeof iterate_object[current_key]=="string"||typeof iterate_object[current_key]=="number"){if(parent_key.length>0)property_path=parent_key+"["+current_key+"]";else property_path=current_key;params.append(property_path,iterate_object[current_key])}else if(typeof iterate_object[current_key]=="object"){if(parent_key.length>0)property_path=parent_key+"["+current_key+"]";else property_path=current_key;paramsGenerator(property_path,iterate_object[current_key])}}};paramsGenerator("",object);return params.toString()},log=(message="")=>{console.clear();console.log("%c"+message,"color:#fff;background-color:#fa8669;font-size:large;")},statistics=(count)=>{console.clear();console.log("%c\u0421\u043E\u0437\u0434\u0430\u043D\u043E: "+success+" \u0438\u0437 "+count+"; \u041E\u0448\u0438\u0431\u043E\u043A: "+error,"color:#fff;background-color:#fa8669;font-size:large;")};`;
-      if (code) {
-        result += `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:"",tplid:396},dataType:"text",success:(t)=>{const recordid=$(t).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code}}),dataType:"text",success:()=>location.reload(),error:()=>log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u0437\u0430\u043F\u0440\u043E\u0441\u0430 \u043D\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 Tilda")})},error:()=>log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u044F \u0437\u0430\u043F\u0440\u043E\u0441\u0430 \u043D\u0430 \u0441\u0435\u0440\u0432\u0435\u0440\u0435 Tilda")});`;
-      } else if (codes) {
-        for (const [i, code2] of codes.entries()) {
-          const newCode = `$.ajax({url:"/page/submit/",type:"POST",data:{comm:"addnewrecord",pageid,afterid:"",tplid:396},dataType:"text",success:(t)=>{const recordid=$(t).attr("recordid");$.ajax({type:"POST",url:"/zero/submit/",data:httpBuildQuery({comm:"savezerocode",pageid,recordid,onlythisfield:"code",fromzero:"yes",code:${code2}}),dataType:"text",success:()=>{success++;statistics(${codes.length});NEXTCODE},error:()=>{error++;statistics(${codes.length});NEXTCODE}});},error:()=>{error++;statistics(${codes.length});NEXTCODE}});`;
-          if (result.includes("NEXTCODE")) {
-            result = result.replace("NEXTCODE", newCode);
-          } else {
-            result += newCode;
-          }
-          ;
-          if (i === codes.length - 1) {
-            result = result.replace("NEXTCODE", "location.reload();");
-          }
-          ;
-        }
-        ;
-      }
-      ;
-      return result;
-    } catch (err) {
-      console.log("Error getReqestCode: ", err);
-      return "";
-    }
-  };
-  /**
-   * Код для вставки в консоль браузера.
-   */
-  getCode = () => {
-    if (this.mode === "all") {
-      const codes = [];
-      for (let id of this.getIdBlocks()) {
-        this.id = id;
-        this.recordId = `#rec${id}`;
-        codes.push(JSON.stringify(JSON.stringify({
-          ...this.getElementsRecordId(),
-          ...this.getAdaptiveAB(),
-          timestamp: (/* @__PURE__ */ new Date()).getTime()
-        })));
-      }
-      return this.getReqestCode(void 0, codes);
-    } else {
-      const code = JSON.stringify(JSON.stringify({
-        ...this.getElementsRecordId(),
-        ...this.getAdaptiveAB(),
-        timestamp: (/* @__PURE__ */ new Date()).getTime()
-      }));
-      return this.getReqestCode(code);
-    }
-  };
-  /**
-   * Зашифрованный код для вставки в консоль браузера.
-   * @return {string}
-   */
-  getCodeEncrypted = () => Buffer.from(this.getCode()).toString("base64");
-  /**
-   * Получение списка блоков id.
-   */
-  getIdBlocks = (id = "396") => {
-    const idBlocks = [];
-    try {
-      this.getRecordId("div").toArray().map((item) => this.getRecordId(item)?.attr("data-record-type") === id && idBlocks.push(this.getRecordId(item)?.attr("id")?.replace("rec", "")));
-    } catch (err) {
-      console.log("Error getIdBlocks: ", err);
-    }
-    return idBlocks;
-  };
 }
 
 exports.Tilda = Tilda;
