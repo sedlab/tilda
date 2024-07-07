@@ -4,7 +4,7 @@
 
 ## Установка
 
-`git clone git clone https://github.com/sedlab/tilda.git`
+`git clone https://github.com/sedlab/tilda.git`
 Переходим в созданный репозиторий, затем устанавливаем npm пакеты
 `yarn`
 если не стоит yarn то
