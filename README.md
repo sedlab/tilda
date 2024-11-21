@@ -4,19 +4,19 @@
 
 ## Подготовка
 
-Если не установлен пакет `git`, то ставим по инструкции с сайта `https://git-scm.com/downloads`
+Если не установлен пакет `git`, то ставим по инструкции с сайта `https://git-scm.com/downloads`.
 
-Если не установлен пакет `node js`, то ставим по инструкции с сайта `https://nodejs.org/en/download/package-manager`
+Если не установлен пакет `node js`, то ставим по инструкции с сайта `https://nodejs.org/en/download/package-manager`.
+
+Если не установлен `VSCode`, то ставим по инструкции с сайта `https://code.visualstudio.com/Download`.
 
 ## Установка
+Открываем Terminal в VSCode, пишем: `git clone https://github.com/sedlab/tilda.git`. Переходим в созданный репозиторий, затем устанавливаем npm пакеты.
 
-`git clone https://github.com/sedlab/tilda.git`
-Переходим в созданный репозиторий, затем устанавливаем npm пакеты
-`yarn`
-если не стоит yarn то
-`npm install —global yarn`
-затем
-`npm install --save-dev tsconfig-paths`
+### npm пакеты
+Если не стоит `yarn` то пишем в Terminal: `npm install —global yarn`.
+
+Затем: `npm install --save-dev tsconfig-paths`.
 
 ## Использование
 
