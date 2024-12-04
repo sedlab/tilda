@@ -13,6 +13,9 @@
 ## Установка
 Открываем Terminal в VSCode, пишем: `git clone https://github.com/sedlab/tilda.git`. Переходим в созданный репозиторий, затем устанавливаем npm пакеты.
 
+## Нюанс
+При выполнении запросов в терминале VSCode Windows в первый раз может произойти ошибка `...`, устранить которую можно с помощью открытия от имени администратора Windows PowerShell и выполнения команды `Set-ExecutionPolicy RemoteSigned`.
+
 ### npm пакеты
 Если не стоит `yarn` то пишем в Terminal: `npm install —global yarn`.
 
